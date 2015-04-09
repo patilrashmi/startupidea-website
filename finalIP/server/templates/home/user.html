@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block subtitle %}{{ user.get_full_name|default:user.username }}{% endblock subtitle %}
+
+{% block container %}
+  <h2 class="page-header">{{ user.get_full_name|default:user.username }}</h2>
+
+  <!-- /.row -->
+
+
+  <!-- Profile Panels -->
+  <!-- The circle icons use Font Awesome's stacked icon classes. For more information, visit http://fontawesome.io/examples/ -->
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header">About <span class="badge"
+                                          style="background-color: red;"></span></h2>
+    </div>
+  </div>
+
+  <!-- Profile Tabs -->
+  <div class="row">
+    <div class="col-lg-12">
+
+      <ul id="myTab" class="nav nav-tabs nav-justified">
+        <li>
+          <a href="#tab-ideas-initiated" data-toggle="tab"><span class="fa fa-power-off"></span> Ideas
+            Initiated <span
+                class="badge">{{ user.ideas_created.all|length }}</span></a>
+        </li>
+        <li>
+          <a href="#tab-categories" data-toggle="tab"><span class="fa fa-users"></span> Categories <span
+              class="badge">{{ user.subscriptions.all|length }}</span></a>
+        </li>
+        <li>
+          <a href="#tab-ratings" data-toggle="tab"><span class="fa fa-star"></span> Ratings <span
+              class="badge">0</span></a>
+        </li>
+      </ul>
+
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade" id="tab-ideas-initiated">
+          <div class="row">
+            {% for idea in user.ideas_created.all|slice:":5" %}
+              <div class="col-sm-6 col-md-4">
+                {% include 'home/fragments/idea_card.html' %}
+              </div>
+              {% empty %}
+                <div class="col-xs-12">
+              <p><i>User had not initiated any ideas</i></p></div>
+            {% endfor %}
+          </div>
+          <!-- /.row -->
+        </div>
+        <div class="tab-pane fade" id="tab-categories">
+          <div class="row">
+            {% for category in user.subscriptions.all|slice:":5" %}
+              <div class="col-lg-4 col-sm-6 col-xs-12">
+                {% include 'home/fragments/category_card.html' %}
+              </div>
+              {% empty %}
+                <div class="col-xs-12">
+              <p><i>User has not subscribed to any categories</i></p></div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="tab-pane fade" id="tab-ratings">
+          <h4>Ratings</h4>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock container %}

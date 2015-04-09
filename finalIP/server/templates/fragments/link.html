@@ -1,0 +1,11 @@
+{% if nav %}
+<li class="{{ wrapper_classes }}">
+{% endif %}
+<a class="{{ classes }}" href="{{ href }}">{{ label }}
+{% if badge %}
+<span class="badge" style="background-color: red;">{{ badge_val }}</span>
+{% endif %}
+</a>
+{% if nav %}
+</li>
+{% endif %}

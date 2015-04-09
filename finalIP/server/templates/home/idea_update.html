@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block subtitle %}Edit Idea{% endblock subtitle %}
+
+{% block container %}
+  <div class="row">
+    <div class="col-xs-12">
+
+      <form action="{% url 'idea_update' idea.id %}" method="POST">
+        {% csrf_token %}
+        <h2 class="page-header">Edit Idea</h2>
+        {% crispy form %}
+        <div class="form-actions pull-left">
+          <button class="btn btn-primary" type="submit">Save</button>
+          <a class="btn btn-default" href="{% url 'profile' %}">Cancel</a>
+        </div>
+      </form>
+
+      <form class="pull-right" action="{% url 'idea_delete' idea.id %}" method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+{% endblock container %}

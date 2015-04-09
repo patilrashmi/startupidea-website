@@ -1,0 +1,18 @@
+<div class="vote-button-wrapper vote-button-wrapper-{{ type }}" data-item-id="{{ id }}">
+  <button class="btn btn-default btn-sm vote-button vote-button-{{ type }} {% if voted %}active{% endif %}"
+          type="button"
+      {% if not user.is_authenticated %}
+          disabled="disabled"
+      {% endif %}>
+    {% if type == 'dislike' %}
+      <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+    {% else %}
+      <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+    {% endif %}
+  </button>
+  {% if type == 'dislike' %}
+    <span class="votes votes-{{ type }} text-danger margin-left-sm margin-right-sm">{{ votes }}</span>
+  {% else %}
+    <span class="votes votes-{{ type }} text-info margin-left-sm margin-right-sm">{{ votes }}</span>
+  {% endif %}
+</div>

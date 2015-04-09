@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load custom_tags %}
+{% load static %}
+
+{% block subtitle %}{{ idea.name }}{% endblock subtitle %}
+
+{% block scripts %}
+  {# Script for ratings #}
+  <script type="application/javascript" src="{% static 'js/star-rating.min.js' %}"></script>
+
+{% endblock scripts %}
+
+{% block container %}
+  {% include 'page_heading.html' with heading=idea.name %}
+
+  <!-- Idea Row -->
+  <div class="row">
+    <!-- Idea Description -->
+    <div class="col-md-4">
+      <div class="row margin-bottom-sm">
+        <div class="col-xs-12">
+          <div class="pull-left">
+            {% include 'fragments/vote_button.html' with type='like' voted=False votes=idea.likes id=idea.id %}
+          </div>
+          {% include 'fragments/vote_button.html' with type='dislike' voted=False votes=idea.dislikes id=idea.id %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <p class="text-muted">
+            <small>This idea was initiated on {{ idea.created_on }}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- /.Idea Description -->
+  </div>
+  <!-- /.row -->
+
+  <div class="row" style="margin-top: 1em;">
+    <div class="col-lg-4">
+      <div class="panel panel-default" style="margin-bottom: 0;">
+        <div class="media panel-body">
+          <div class="media-left">
+            <a href="{% url 'user' idea.initiator_id %}">
+              <img class="media-object" src="http://placehold.it/64x64" alt="User profile picture">
+            </a>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading ellipsis">
+              <a href="{% url 'user' idea.initiator_id %}">
+                {{ idea.initiator.get_full_name|default:idea.initiator.username }}</a>
+              <span class="fa fa-user pull-right"></span>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="panel panel-default" style="margin-bottom: 0;">
+        <div class="media panel-body">
+          <div class="media-left">
+            <a href="{% url 'category' idea.category_id %}">
+              <img class="media-object" src="http://placehold.it/64x64" alt="User profile picture">
+            </a>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading ellipsis">
+              <a href="{% url 'category' idea.category_id %}">{{ idea.category.name }}</a>
+              <span class="fa fa-users pull-right"></span>
+            </h4>
+
+            <p style="margin-bottom:0;">{{ idea.category.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Idea Tabs -->
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#about-tab" data-toggle="tab"><i class="fa fa-tree"></i>&nbsp;About</a></li>
+      </ul>
+      <!-- Tabbed Content -->
+      <div class="tab-content margin-top-md">
+        <!-- About -->
+        <div class="tab-pane fade active in" id="about-tab">
+          <div class="row">
+            <div class="col-lg-12">
+              <p>{{ idea.description|linebreaks }}</p>
+            </div>
+          </div>
+        </div>
+        <!-- /.About -->
+      </div>
+      <!-- Tabbed Content -->
+    </div>
+  </div>
+  <!-- Idea Tabs -->
+{% endblock container %}

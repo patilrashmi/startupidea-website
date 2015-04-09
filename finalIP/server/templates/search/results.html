@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block subtitle %}Results{% endblock subtitle %}
+
+{% block content %}
+  {% include 'page_heading.html' with heading='Results' %}
+
+  <h2>Ideas</h2>
+
+  <!-- Ideas Section -->
+  <div class="row">
+    {% for idea in ideas|slice:":3" %}
+      <div class="col-sm-6 col-md-4">
+        {% include "home/fragments/idea_card.html" %}
+      </div>
+
+      {# If no ideas were found #}
+      {% empty %}
+      <div class="col-lg-12">
+        <p><i>No ideas were found.</i></p>
+      </div>
+    {% endfor %}
+  </div>
+  <!-- /.row -->
+
+  <h2>Categories</h2>
+
+  <!-- Categories Section -->
+  <div class="row">
+    {% for category in categories|slice:":3" %}
+      <div class="col-sm-6 col-md-4">
+        {% include "home/fragments/category_card.html" %}
+      </div>
+      {% if forloop.counter|divisibleby:3 %}
+        </div>
+        <div class="row">
+      {% endif %}
+
+      {# If no categories were found #}
+      {% empty %}
+      <div class="col-lg-12">
+        <p><i>No categories were found.</i></p>
+      </div>
+    {% endfor %}
+    </div>
+  <!-- /.row -->
+{% endblock content %}

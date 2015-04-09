@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ SITE_NAME }}{% endblock title %}
+
+{% block scripts %}
+  <!-- Script to Activate the Carousel -->
+  <script>
+    $('.carousel').carousel({
+      interval: 5000 //changes the speed
+    })
+  </script>
+{% endblock scripts %}
+
+{% block beforecontent %}
+  <!-- Carousel -->
+  <div id="myCarousel" class="carousel slide">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#myCarousel" data-slide-to="1"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+      <div class="item active">
+        <div class="fill"
+             style="background-image:url(http://thenextweb.com/wp-content/blogs.dir/1/files/2013/10/Startup-idea-building.jpg);"></div>
+        <div class="carousel-caption">
+          <h1>Welcome to StartupIdea</h1>
+          <h4>A place to share your next big startup idea with others</h4>
+
+          <p><a class="btn btn-primary btn-lg" href="{% url 'ideas' %}" role="button">Explore</a></p>
+        </div>
+      </div>
+      <div class="item">
+        <div class="fill"
+             style="background-image:url(https://s3.amazonaws.com/cms.fundable.com/wp-content/uploads/2014/01/How-to-evaluate-your-startup-idea.jpg);"></div>
+        <div class="carousel-caption">
+          <h1>Startups</h1>
+
+          <p>Browse ideas created by others and get inspired.</p>
+
+          <p><a class="btn btn-primary btn-lg" href="{% url 'signup' %}" role="button">Get Started</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+      <span class="icon-prev"></span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" data-slide="next">
+      <span class="icon-next"></span>
+    </a>
+  </div>
+{% endblock beforecontent %}
+
+{% block container %}
+
+  <h2>About</h2>
+  <p>StartupIdea is a free service that allows users to submit ideas about "Start-up" companies.  A start-up idea includes information about the title of the idea, a short description (a couple of paragraphs), the industry or market it belongs to from a list of at least 5 pre-defined choices (health, technology, education, finance, travel). Registered user has the privilege of navigating through startup ideas submitted by other users and provide their opinions with like/dislike.</p>
+  <p>Whether you're a student looking to start your own business or have a brilliant idea that you would want other users to know and collaborate with or a professional looking to attract clients, StartupIdea is the perfect starting point!</p>
+
+  <!-- Trending Ideas Section -->
+  <h2>Trending Ideas</h2>
+  <div class="row">
+    {% for idea in ideas|slice:":3" %}
+      <div class="col-sm-6 col-md-4">
+        {% include 'home/fragments/idea_card.html' %}
+      </div>
+      {% empty %}
+      <div class="col-xs-12">
+        <p><i>No trending ideas to display.</i></p>
+      </div>
+    {% endfor %}
+  </div>
+  <!-- /.row -->
+
+  <!-- Trending Categories Section -->
+  <h2>Trending Categories</h2>
+  <div class="row">
+    {% for category in categories|slice:":3" %}
+      <div class="col-sm-6 col-md-4">
+        {% include 'home/fragments/category_card.html' %}
+      </div>
+      {% empty %}
+      <div class="col-xs-12">
+        <p><i>No trending categories to display.</i></p>
+      </div>
+    {% endfor %}
+  </div>
+  <!-- /.row -->
+{% endblock container %}

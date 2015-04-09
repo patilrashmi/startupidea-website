@@ -1,0 +1,8 @@
+<div class="thumbnail">
+    <a href="{% url 'category' category.id %}">
+        <div class="caption">
+            <h3 style="text-overflow: ellipsis;">{{ category.name }}</h3>
+            <p>{{ category.description }}</p>
+        </div>
+    </a>
+</div>

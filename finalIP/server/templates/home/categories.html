@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block subtitle %}Categories{% endblock subtitle %}
+
+{% block container %}
+  {% include 'page_heading.html' with heading='Categories' %}
+
+  <!-- Categories Section -->
+  <div class="row">
+    {% for category in categories|slice:":12" %}
+      <div class="col-sm-6 col-md-4">
+        {% include "home/fragments/category_card.html" %}
+      </div>
+      {% if forloop.counter|divisibleby:3 %}
+        </div>
+        <div class="row">
+      {% endif %}
+      {% empty %}
+      <div class="col-xs-12">
+        <p><i>No categories to display.</i></p>
+      </div>
+    {% endfor %}
+    </div>
+  <!-- /.row -->
+
+{% endblock container %}

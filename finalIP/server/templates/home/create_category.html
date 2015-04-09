@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block subtitle %}Create a Category{% endblock subtitle %}
+
+{% block container %}
+  {% include 'page_heading.html' with heading='Create a Category' %}
+  <form action="{% url 'create_category' %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Create" class="btn btn-primary btn-lg"/>
+  </form>
+{% endblock container %}

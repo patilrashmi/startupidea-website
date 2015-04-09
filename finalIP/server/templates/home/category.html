@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block subtitle %}{{ category.name }}{% endblock subtitle %}
+
+{% block container %}
+  {% include 'page_heading.html' with heading=category.name %}
+
+  <!--Category Content Column -->
+  <div class="row">
+    <div class="col-md-8">
+
+      <!-- Category Description Content -->
+      <p>{{ category.description }}</p>
+
+      {% if user.is_authenticated %}
+        {% if user not in category.subscribers.all %}
+          <form action="{% url 'subscribe' category.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg">Subscribe</button>
+          </form>
+        {% else %}
+          <form action="{% url 'unsubscribe' category.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg">Unsubscribe</button>
+          </form>
+        {% endif %}
+      {% endif %}
+    </div>
+    <!-- Category Sidebar Widget- subscribed users -->
+    <div class="col-md-4">
+      <h4>Subscribed Users</h4>
+
+      <div class="row">
+        {% for user in category.subscribers.all|slice:":12" %}
+          <div class="col-md-4">
+            <a class="User pic" href="{% url 'user' user.id %}">
+              <img class="media-object" src="http://placehold.it/64x64" alt="">
+              <h5>{{ user.get_full_name|default:user.username }}</h5></a>
+          </div>
+          {% if forloop.counter|divisibleby:3 %}
+            </div>
+            <div class="row">
+          {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+  </div>
+  <!-- /.row -->
+
+  <!-- Ideas Section -->
+  <div class="row">
+    <div class="col-xs-12 margin-bottom-md">
+      <h3>Ideas</h3>
+      <a class="btn btn-primary" href="{% url 'idea_create' %}">Create Idea</a>
+    </div>
+    {% for idea in category.ideas.all|slice:":3" %}
+      <div class="col-sm-6 col-md-4">
+        {% include "home/fragments/idea_card.html" %}
+      </div>
+    {% endfor %}
+  </div>
+  <!-- /.row -->
+
+  <!-- Pagination -->
+  <div class="row text-center">
+    <div class="pagination">
+      <span class="step-links">
+        {% if paginator.count == 0 %}
+          <i>No ideas in this category.</i>
+        {% else %}
+          {% if ideas.has_previous %}
+            <a class="btn btn-primary" href="?page={{ ideas.previous_page_number }}">Prev</a>
+          {% else %}
+            <a class="btn btn-primary disabled">Prev</a>
+          {% endif %}
+
+          <span class="current">
+            Page {{ ideas.number }} of {{ ideas.paginator.num_pages }}
+          </span>
+
+          {% if ideas.has_next %}
+            <a class="btn btn-primary" href="?page={{ ideas.next_page_number }}">Next</a>
+          {% else %}
+            <a class="btn btn-primary disabled">Next</a>
+          {% endif %}
+        {% endif %}
+      </span>
+    </div>
+  </div>
+  <!-- /.row -->
+
+  <hr>
+
+{% endblock container %}
